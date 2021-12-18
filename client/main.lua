@@ -1,5 +1,6 @@
 ESX              = nil
 local onDuty = false
+local onPatrol = false
 local SecurityZoneBlips = {}
 
 -- ESX BASE --
@@ -11,13 +12,57 @@ Citizen.CreateThread(function()
 end)
 
 -- Commands --
-
+RegisterCommand('+forceduty', function(source, args, rawCommand)
+	ToggleDuty()
+end, false)
 
 -- DRAW MARKER --
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
 		DrawMarker(25, Config.HQCoords.x, Config.HQCoords.y, Config.HQCoords.z - 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 0, 255, 0, 155, false, true, 2, nil, nil, false)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		if onDuty then
+			for k,v in pairs(Config.SecurityZones) do
+				DrawMarker(25, v.startCoord.x, v.startCoord.y, v.startCoord.z - 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 0, 255, 0, 155, false, true, 2, nil, nil, false)
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while not NetworkIsSessionStarted() do
+		Wait(500)
+	end
+
+	while true do
+		Citizen.Wait(1)
+		if onDuty then
+			for k,v in pairs(Config.SecurityZones) do
+				while #(GetEntityCoords(PlayerPedId()) - v.startCoord) <= 1.0 do
+					Citizen.Wait(0)
+					if Config.Use3DText then
+						ESX.Game.Utils.DrawText3D(v.startCoord, "Press ~y~[E]~s~ to start area patrol")
+					else
+						ESX.ShowHelpNotification('Press ~INPUT_CONTEXT~ to start area patrol')
+					end
+					if IsControlJustReleased(0, 51) then
+						if onPatrol then
+							ESX.ShowNotification('~r~[ERROR]~w~ You are already on another patrol!')
+						else
+							ESX.ShowNotification('~y~[INFO]~w~ Your area patrol has started! Please patrol the area for ~b~' .. v.PatrolTime .. ' ~w~seconds')
+							onPatrol = true
+							timer(v.PatrolTime)
+						end
+					end
+				end
+			end
+		end
 	end
 end)
 
@@ -48,6 +93,18 @@ Citizen.CreateThread(function()
 end)
 
 -- FUNCTIONS --
+function timer(timeAmount)
+	Citizen.CreateThread(function()
+		local time = timeAmount
+		while (time ~= 0) do
+			Wait( 1000 )
+			time = time - 1
+		end
+		ESX.ShowNotification('~y~[INFO]~w~ Your patrol time for the area has ended.')
+		onPatrol = false
+	end)
+end
+
 function DrawBlip(coord)
 	local blip = AddBlipForCoord(coord)
 	table.insert(SecurityZoneBlips, blip)
@@ -68,7 +125,6 @@ end
 
 function HQMenu(items)
 	ESX.UI.Menu.CloseAll()
-	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'general_menu', {
 		title = "Security",
 		align = "center",
