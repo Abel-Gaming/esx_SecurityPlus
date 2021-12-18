@@ -108,7 +108,7 @@ end
 function DrawBlip(coord)
 	local blip = AddBlipForCoord(coord)
 	table.insert(SecurityZoneBlips, blip)
-	SetBlipSprite(blip, 67)
+	SetBlipSprite(blip, 487)
 	SetBlipColour(blip, 11)
 	SetBlipScale(blip, 1.0)
 	SetBlipDisplay(blip, 4)
