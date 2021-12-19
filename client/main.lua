@@ -57,7 +57,7 @@ Citizen.CreateThread(function()
 						else
 							ESX.ShowNotification('~y~[INFO]~w~ Your area patrol has started! Please patrol the area for ~b~' .. v.PatrolTime .. ' ~w~seconds')
 							onPatrol = true
-							timer(v.PatrolTime)
+							timer(v.PatrolTime, v.PaidContract, v.Payout, v.name)
 						end
 					end
 				end
@@ -93,7 +93,7 @@ Citizen.CreateThread(function()
 end)
 
 -- FUNCTIONS --
-function timer(timeAmount)
+function timer(timeAmount, Paid, Payout, Location)
 	Citizen.CreateThread(function()
 		local time = timeAmount
 		while (time ~= 0) do
@@ -101,7 +101,12 @@ function timer(timeAmount)
 			time = time - 1
 		end
 		ESX.ShowNotification('~y~[INFO]~w~ Your patrol time for the area has ended.')
-		onPatrol = false
+		if Paid then
+			TriggerServerEvent('esx_SecurityPlus:PayContract', Location)
+			onPatrol = false
+		else
+			onPatrol = false
+		end
 	end)
 end
 
