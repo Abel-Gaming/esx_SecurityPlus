@@ -2,6 +2,8 @@ ESX              = nil
 local onDuty = false
 local onPatrol = false
 local SecurityZoneBlips = {}
+local generatedPeds = {}
+local pedBlips = {}
 
 -- ESX BASE --
 Citizen.CreateThread(function()
@@ -16,7 +18,7 @@ RegisterCommand('+forceduty', function(source, args, rawCommand)
 	ToggleDuty()
 end, false)
 
--- DRAW MARKER --
+-- DRAW HQ MARKER --
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
@@ -24,6 +26,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
+-- DRAW PATROL AREA MARKER --
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
@@ -35,6 +38,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
+-- CHECK PATROL AREA MARKER
 Citizen.CreateThread(function()
 	while not NetworkIsSessionStarted() do
 		Wait(500)
@@ -58,6 +62,8 @@ Citizen.CreateThread(function()
 							ESX.ShowNotification('~y~[INFO]~w~ Your area patrol has started! Please patrol the area for ~b~' .. v.PatrolTime .. ' ~w~seconds')
 							onPatrol = true
 							timer(v.PatrolTime, v.PaidContract, v.Payout, v.name)
+							halfTime = v.PatrolTime / 3
+							PatrolEvents(halfTime, v.startCoord)
 						end
 					end
 				end
@@ -66,7 +72,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- CHECK MARKER --
+-- CHECK HQ MARKER --
 Citizen.CreateThread(function()
 	while not NetworkIsSessionStarted() do
 		Wait(500)
@@ -92,6 +98,23 @@ Citizen.CreateThread(function()
 	end
 end)
 
+-- Patrol Events --
+function LoiteringPerson(coords)
+	RequestModel( GetHashKey( "S_M_Y_Dealer_01" ) )
+	while ( not HasModelLoaded( GetHashKey( "S_M_Y_Dealer_01" ) ) ) do
+    	Citizen.Wait( 1 )
+	end
+	local radius = 20.0
+	local x = coords.x + math.random(-radius, radius)
+	local y = coords.y + math.random(-radius, radius)
+	local ped = CreatePed(0, GetHashKey('S_M_Y_Dealer_01'), x, y, coords.z, GetEntityHeading(PlayerPedId()), true, false)
+	local pedBlip = AddBlipForEntity(ped)
+	table.insert(pedBlips, pedBlip)
+	table.insert(generatedPeds, ped)
+	ClearPedTasksImmediately(ped)
+	TaskWanderStandard(ped, 10.0, 10)
+end
+
 -- FUNCTIONS --
 function timer(timeAmount, Paid, Payout, Location)
 	Citizen.CreateThread(function()
@@ -103,11 +126,42 @@ function timer(timeAmount, Paid, Payout, Location)
 		ESX.ShowNotification('~y~[INFO]~w~ Your patrol time for the area has ended.')
 		if Paid then
 			TriggerServerEvent('esx_SecurityPlus:PayContract', Location)
+			for k,v in pairs(pedBlips) do
+				RemoveBlip(value)
+			end
+			for k,v in pairs(generatedPeds) do
+				DeletePed(v)
+			end
+			generatedPeds = {}
+			pedBlips = {}
 			onPatrol = false
 		else
+			for k,v in pairs(pedBlips) do
+				RemoveBlip(value)
+			end
+			for k,v in pairs(generatedPeds) do
+				DeletePed(v)
+			end
+			generatedPeds = {}
+			pedBlips = {}
 			onPatrol = false
 		end
 	end)
+end
+
+function PatrolEvents(WaitTime, coords)
+	Citizen.Wait(WaitTime * 1000)
+	local RandomEvents = {"None", "Loitering"}
+	local ChosenEvent = (RandomEvents[math.random(1, #RandomEvents)])
+	if Config.EnableDebug then
+		ESX.ShowNotification('~o~[DEBUG]~w~ The random event chosen was: ~b~' .. ChosenEvent)
+	end
+	if ChosenEvent == 'None' then
+		
+	elseif ChosenEvent == 'Loitering' then
+		ESX.ShowHelpNotification('~y~[INFO]~w~ Reports of a person loitering on the property. Please find them and address them.')
+		LoiteringPerson(coords)
+	end
 end
 
 function DrawBlip(coord)
