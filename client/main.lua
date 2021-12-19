@@ -205,6 +205,11 @@ AddEventHandler('esx_SecurityPlus:GlobalNotification', function(text)
 	ESX.ShowNotification(text)
 end)
 
+RegisterNetEvent('esx_SecurityPlus:ToggleDutyEvent')
+AddEventHandler('esx_SecurityPlus:ToggleDutyEvent', function()
+	ToggleDuty()
+end)
+
 -- BLIP --
 if Config.EnableBlips then
 	Citizen.CreateThread(function()
