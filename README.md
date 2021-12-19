@@ -1,5 +1,5 @@
 # Security Plus
-Security Plus is a plugin that allows players of your FiveM ESX server to become security guards and protect pre-defined regions or locations throughout San Andreas. A configuration file allows you to add/remove locations to be secured. Also in the configuration file, you can edit things like the HQ position, patrol vehicle, and even different styles for text in the script!
+Security Plus is a plugin that allows players of your FiveM ESX server to become security guards and protect pre-defined regions or locations throughout San Andreas. A configuration file allows you to add/remove locations to be secured. Also in the configuration file, you can edit things like the HQ position, patrol vehicle, whether a location is a paid contract, payout amount, and even different styles for text in the script! Players will go to different defined patrol regions and patrol the area for the set amount of time in the config file. After their patrol time has expired, they will be paid for their services!
 <br>
 ![Security+](https://i.imgur.com/cElRyrE.png)
 <br>
