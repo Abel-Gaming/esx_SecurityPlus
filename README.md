@@ -3,6 +3,9 @@ Security Plus is a plugin that allows players of your FiveM ESX server to become
 <br>
 ![Security+](https://i.imgur.com/cElRyrE.png)
 <br>
+## Random Patrol Events
+• Person loitering - a person is loitering on the property. Find them and remove them.
+<br>
 ## Still Under Development
 This is still a very early release into the plugin; however, I am releasing for public critism and suggestions. Please note that major updates will be posted immediately to the Github. At this time, support will be provided. This is currently only posted to Github, this has not been published elsewhere.
 <br>
