@@ -7,6 +7,8 @@ This is still a very early release into the plugin; however, I am releasing for 
 ## Commands
 • /+forceduty - This will allow the player to go on duty without going to HQ
 <br>
+## Events
+```TriggerEvent('esx_SecurityPlus:ToggleDutyEvent')``` - Toggle duty from another script or source
 ## Plans
 - [x] Timed security patrols (in seconds)
 - [x] Paid security contracts (get paid after the time expires)
