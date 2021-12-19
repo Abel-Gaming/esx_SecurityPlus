@@ -9,7 +9,7 @@ This is still a very early release into the plugin; however, I am releasing for 
 <br>
 ## Plans
 - [x] Timed security patrols (in seconds)
-- [ ] Paid security contracts (get paid after the time expires)
+- [x] Paid security contracts (get paid after the time expires)
 - [ ] Interaction options for both players and NPC
 <br><br>
 ### Join Our Discord
