@@ -8,13 +8,14 @@ Security Plus is a plugin that allows players of your FiveM ESX server to become
 - [ ] Customer refusing to pay
 - [ ] Trespassing
 - [ ] Trespassing with a weapon
-- [ ] Civil dispute (fight)
-<br>
+- [ ] Civil dispute
+<br><br>
 ## Still Under Development
 This is still a very early release into the plugin; however, I am releasing for public critism and suggestions. Please note that major updates will be posted immediately to the Github. At this time, support will be provided. This is currently only posted to Github, this has not been published elsewhere.
 <br>
 ## Commands
 • /+forceduty - This will allow the player to go on duty without going to HQ
+• /+securitymenu - Security interaction menu (still a WIP)
 <br>
 ## Events
 ```TriggerEvent('esx_SecurityPlus:ToggleDutyEvent')``` - Toggle duty from another script or source
