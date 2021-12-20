@@ -1,5 +1,5 @@
 Config = {}
-Config.EnableDebug = false
+Config.EnableDebug = true
 
 -- General --
 Config.Use3DText = false
@@ -30,7 +30,7 @@ Config.SecurityZones = {
         coord = vector3(213.41055297852, 1235.3703613281, 225.46057128906),
         blip = true,
         startCoord = vector3(213.41055297852, 1235.3703613281, 225.46057128906),
-        PatrolTime = 120, -- In seconds
+        PatrolTime = 30, -- In seconds
         PaidContract = true,
         Payout = 100
     },
@@ -43,4 +43,22 @@ Config.SecurityZones = {
         PaidContract = true,
         Payout = 100
     }
+}
+
+-- Interaction Menu --
+Config.Questions = {
+    {
+        label = 'What are you doing in this area?',
+        value = 'area_question'
+    },
+    {
+        label = 'Is everything okay?',
+        value = 'everything_okay'
+    }
+}
+
+Config.Answers = {
+    'Mind your own business.',
+    'Can you leave me alone please?',
+    'I am calling the police'
 }

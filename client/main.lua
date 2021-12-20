@@ -2,6 +2,7 @@ ESX              = nil
 local onDuty = false
 local onPatrol = false
 local SecurityZoneBlips = {}
+local PatrolEventPed = nil
 local generatedPeds = {}
 local pedBlips = {}
 
@@ -16,6 +17,10 @@ end)
 -- Commands --
 RegisterCommand('+forceduty', function(source, args, rawCommand)
 	ToggleDuty()
+end, false)
+
+RegisterCommand('+securitymenu', function(source, args, rawCommand)
+	SecurityMenu()
 end, false)
 
 -- DRAW HQ MARKER --
@@ -109,10 +114,31 @@ function LoiteringPerson(coords)
 	local y = coords.y + math.random(-radius, radius)
 	local ped = CreatePed(0, GetHashKey('S_M_Y_Dealer_01'), x, y, coords.z, GetEntityHeading(PlayerPedId()), true, false)
 	local pedBlip = AddBlipForEntity(ped)
+	PatrolEventPed = ped
 	table.insert(pedBlips, pedBlip)
 	table.insert(generatedPeds, ped)
 	ClearPedTasksImmediately(ped)
 	TaskWanderStandard(ped, 10.0, 10)
+end
+
+-- Interaction Options
+function StopPed()
+	if DoesEntityExist(PatrolEventPed) then
+		ClearPedTasksImmediately(PatrolEventPed)
+		TaskStandStill(ped, -1)
+		ESX.ShowNotification('Ped has been stopped')
+	else
+		if Config.EnableDebug then
+			print('The ped you tried to stop does not exist')
+		end
+	end
+end
+
+function ReleasePed()
+	if DoesEntityExist(PatrolEventPed) then
+		ClearPedTasksImmediately(PatrolEventPed)
+		ESX.ShowNotification('Ped has been released')
+	end
 end
 
 -- FUNCTIONS --
@@ -199,6 +225,55 @@ function HQMenu(items)
 				ESX.ShowNotification('~r~[ERROR]~w~ You are not on duty!')
 			end
 		end
+	end,
+	function(data, menu)
+		menu.close()
+	end)
+end
+
+function SecurityMenu()
+	local securitymenuoptions = {
+		{label = "Stop Closest Ped", value = 'stop_ped'},
+		{label = "Release Closest Ped", value = 'release_ped'},
+		{label = "Question Menu", value = 'question_menu'}
+	}
+	ESX.UI.Menu.CloseAll()
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'general_menu', {
+		title = "Security",
+		align = "bottom-right",
+		elements = securitymenuoptions
+	}, function(data, menu)
+		if data.current.value == 'stop_ped' then
+			StopPed()
+		elseif data.current.value == 'release_ped' then
+			ReleasePed()
+		elseif data.current.value == 'question_menu' then
+			QuestionMenu()
+		end
+	end,
+	function(data, menu)
+		menu.close()
+	end)
+end
+
+function QuestionMenu()
+	local questions = {}
+	for k,v in pairs(Config.Questions) do
+		table.insert(questions, {label = v.label, value = v.value})
+	end
+
+	ESX.UI.Menu.CloseAll()
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'general_menu', {
+		title = "Security Questions",
+		align = "bottom-right",
+		elements = questions
+	}, function(data, menu)
+		local ResponseOptions = {}
+		for k,v in pairs(Config.Answers) do
+			table.insert(ResponseOptions, v)
+		end
+		local Response = (ResponseOptions[math.random(1, #ResponseOptions)])
+		ESX.ShowNotification(Response)
 	end,
 	function(data, menu)
 		menu.close()
