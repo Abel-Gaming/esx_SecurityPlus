@@ -22,7 +22,7 @@ This is still a very early release into the plugin; however, I am releasing for 
 ## Plans
 - [x] Timed security patrols (in seconds)
 - [x] Paid security contracts (get paid after the time expires)
-- [ ] Interaction menu
+- [ ] Interaction menu (WIP)
 <br><br>
 ### Join Our Discord
 https://discord.gg/jjCg8tcQwD
