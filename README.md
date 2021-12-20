@@ -3,8 +3,12 @@ Security Plus is a plugin that allows players of your FiveM ESX server to become
 <br>
 ![Security+](https://i.imgur.com/cElRyrE.png)
 <br>
-## Random Patrol Events
-• Person loitering - a person is loitering on the property. Find them and remove them.
+## Random Patrol Events (Planned)
+- [x] Person loitering - a person is loitering on the property. Find them and remove them.
+- [ ] Customer refusing to pay
+- [ ] Trespassing
+- [ ] Trespassing with a weapon
+- [ ] Civil dispute (fight)
 <br>
 ## Still Under Development
 This is still a very early release into the plugin; however, I am releasing for public critism and suggestions. Please note that major updates will be posted immediately to the Github. At this time, support will be provided. This is currently only posted to Github, this has not been published elsewhere.
@@ -17,7 +21,7 @@ This is still a very early release into the plugin; however, I am releasing for 
 ## Plans
 - [x] Timed security patrols (in seconds)
 - [x] Paid security contracts (get paid after the time expires)
-- [ ] Interaction options for both players and NPC
+- [ ] Interaction menu
 <br><br>
 ### Join Our Discord
 https://discord.gg/jjCg8tcQwD
