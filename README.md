@@ -23,6 +23,7 @@ This is still a very early release into the plugin; however, I am releasing for 
 - [x] Timed security patrols (in seconds)
 - [x] Paid security contracts (get paid after the time expires)
 - [ ] Interaction menu (WIP)
+- [ ] NUI Contract Offer (WIP)
 <br><br>
 ### Join Our Discord
 https://discord.gg/jjCg8tcQwD
