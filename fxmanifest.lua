@@ -13,3 +13,20 @@ client_scripts {
 	'config.lua',
 	'client/main.lua'
 }
+
+dependencies {
+	'es_extended'
+}
+
+ui_page 'nui/index.html'
+files { 
+'nui/index.html', 
+'nui/index.css', 
+'nui/index.js'
+}
+
+escrow_ignore {
+	'config.lua'
+}
+
+lua54 'yes'

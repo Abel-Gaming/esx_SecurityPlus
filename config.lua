@@ -2,7 +2,7 @@ Config = {}
 Config.EnableDebug = true
 
 -- General --
-Config.Use3DText = false
+Config.Use3DText = true
 Config.EnableBlips = true
 
 -- Duty Settings --
@@ -22,21 +22,21 @@ Config.SecurityZones = {
         blip = true,
         startCoord = vector3(-40.965518951416, -1751.9327392578, 29.421020507813),
         PatrolTime = 120, -- In seconds
-        PaidContract = false,
+        PaidContract = true,
         Payout = 100
     },
     {
         name = 'Sisyphus Theater',
-        coord = vector3(213.41055297852, 1235.3703613281, 225.46057128906),
+        coord = vector3(218.1862, 1192.421, 225.5947),
         blip = true,
-        startCoord = vector3(213.41055297852, 1235.3703613281, 225.46057128906),
+        startCoord = vector3(218.1862, 1192.421, 225.5947),
         PatrolTime = 30, -- In seconds
         PaidContract = true,
         Payout = 100
     },
     {
         name = 'ULSA',
-        coord = vector3(-1612.9968261719, 185.89691162109, 59.410472869873),
+        coord = vector3(-1635.6265869141, 181.37966918945, 61.757331848145),
         blip = true,
         startCoord = vector3(-1635.6265869141, 181.37966918945, 61.757331848145),
         PatrolTime = 120, -- In seconds
