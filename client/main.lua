@@ -83,6 +83,8 @@ function HQMenu(items)
 			else
 				ESX.ShowNotification('~r~[ERROR]~w~ You are not on duty!')
 			end
+		elseif data.current.value == 'view_contracts' then
+			ShowAllContracts()
 		end
 	end,
 	function(data, menu)
@@ -274,6 +276,26 @@ function KeyboardInput(TextEntry, ExampleText, MaxStringLenght)
 	end
 end
 
+function ShowAllContracts()
+	-- Close ESX Menu
+	ESX.UI.Menu.CloseAll()
+
+	-- Tell NUI to display HUD
+	SendNUIMessage({
+		type = 'displayAll',
+		showUI = true
+	})
+
+	-- Set Focus
+	SetNuiFocus(true, true)
+
+	-- Send Info
+	SendNUIMessage({
+		type = 'allContracts',
+		contracts = Config.SecurityZones
+	})
+end
+
 ----- DRAW HQ MARKER -----
 Citizen.CreateThread(function()
 	while true do
@@ -365,7 +387,8 @@ Citizen.CreateThread(function()
 			if IsControlJustReleased(0, 51) then
 				local mainoptions = {
 					{label = "Toggle Duty", value = 'toggle_duty'},
-					{label = "Spawn Patrol Vehicle", value = 'patrol_vehicle'}
+					{label = "Spawn Patrol Vehicle", value = 'patrol_vehicle'},
+					{label = "View All Contracts", value = 'view_contracts'}
 				}
 				HQMenu(mainoptions)
 			end
@@ -431,6 +454,20 @@ RegisterNUICallback('declineContract', function(data, cb)
 	-- Hide NUI
 	SendNUIMessage({
 		type = 'display',
+		showUI = false
+	})
+end)
+
+RegisterNUICallback('closeAllContracts', function(data, cb)
+	-- Send Callback
+	cb({})
+
+	-- Set NUI Focus
+	SetNuiFocus(false, false)
+
+	-- Hide NUI
+	SendNUIMessage({
+		type = 'displayAll',
 		showUI = false
 	})
 end)

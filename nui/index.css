@@ -11,6 +11,19 @@
     position: fixed;
 }
 
+#AllContracts {
+    background: rgb(255, 255, 153);
+    border: black;
+    color: black;
+    font-size: 18px;
+    font-family: sans-serif;
+    height: 600px;
+    width: 600px;
+    top: 10%;
+    right: 35%;
+    position: fixed;
+}
+
 .button {
     background-color: #555555; /* Black */
     border: none;

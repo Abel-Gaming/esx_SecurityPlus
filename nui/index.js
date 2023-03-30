@@ -1,5 +1,6 @@
 window.onload = function(){ 
     $('.ContractPanel').hide();
+    document.getElementById('AllContracts').hidden = true;
 }
 
 window.addEventListener('message', (event) => {
@@ -10,6 +11,14 @@ window.addEventListener('message', (event) => {
             $('.ContractPanel').show();
         } else {
             $('.ContractPanel').hide();
+        }
+    }
+
+    if (data.type === 'displayAll') {
+        if (data.showUI) {
+            document.getElementById('AllContracts').hidden = false;
+        } else {
+            document.getElementById('AllContracts').hidden = true;
         }
     }
 
@@ -25,6 +34,29 @@ window.addEventListener('message', (event) => {
         document.getElementById('coord').hidden = true;
         document.getElementById('isPaid').textContent = data.isPaid;
         document.getElementById('coord').textContent = data.coord;
+    }
+
+    if (data.type === 'allContracts') {
+        var divElement = document.getElementById('AllContracts');
+        var allContractsHeader = document.createElement("div");
+        allContractsHeader.innerHTML = `
+        <center><h2>Security Contracts</h2></center>
+        <center><button type="button" id="closeAll">Close</button></center>
+        <hr>
+        `;
+        divElement.appendChild(allContractsHeader);
+        data.contracts.forEach(contract => {
+            var contractElement = document.createElement("div");
+            contractElement.innerHTML = "Contract Name: " + contract.name + "<br>" + "Contract Time: " + contract.PatrolTime + " seconds" + "<br>" + "Contract Pay: $" + contract.Payout + "<hr>";
+            divElement.appendChild(contractElement);
+        });
+        document.getElementById('closeAll').addEventListener('click', () => {
+            axios.post(`https://${GetParentResourceName()}/closeAllContracts`, {});
+            var divElement = document.getElementById('AllContracts');
+            while (divElement.firstChild) {
+                divElement.removeChild(divElement.firstChild);
+              }
+        });
     }
 });
 
