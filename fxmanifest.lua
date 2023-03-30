@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 description 'ESX Security Plus - Become a security guard of LS!'
 author 'Abel Gaming'
-version '1.0'
+version '1.2 DEVELOPMENT'
 
 server_scripts {
 	'config.lua',
