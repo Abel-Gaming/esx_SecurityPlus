@@ -9,6 +9,7 @@
     top: 10%;
     right: 35%;
     position: fixed;
+    padding: 0.4em;
 }
 
 #AllContracts {
@@ -22,6 +23,7 @@
     top: 10%;
     right: 35%;
     position: fixed;
+    padding: 0.4em;
 }
 
 .button {
